@@ -70,6 +70,8 @@ in
     coreutils
 
     # Nix dev
+    nixci
+    direnv
     cachix
     nil # Nix language server
     nix-info
