@@ -10,7 +10,7 @@
   nix = {
     # Which Nix version to use
     # https://search.nixos.org/packages?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=nix
-    package = pkgs.nix;
+    package = pkgs.nixVersions.nix_2_23;
 
     registry.nixpkgs.flake = flake.inputs.nixpkgs; # https://yusef.napora.org/blog/pinning-nixpkgs-flake/
 

@@ -42,7 +42,7 @@ let
     src = builtins.fetchTarball {
       url =
         "https://github.com/andrew-george/telescope-themes/archive/master.tar.gz";
-      sha256 = "sha256:1g5rvi6h8b4yh4270gm2i5y9xzszixgxm2bz0sdwdw50nz3ingj5";
+      sha256 = "sha256:0vmvrjk1bw9cgdwb1cmgk1v353842ccsl59x6gn4ggp55i1nlwzy";
     };
   };
   kanagawa = pkgs.vimUtils.buildVimPlugin {
@@ -261,23 +261,28 @@ in {
     plugins = {
 
       # UI
+      # plugins.bufferline.settings.highlights.tab_separator_selected
       lualine.enable = true;
       bufferline = {
         enable = true;
-        diagnostics = "nvim_lsp";
-        separatorStyle = "slope";
-        highlights = {
-          tabSeparatorSelected = { # FIXME: This doesn't seem to work
-            underline = true;
-            sp = "red";
+        settings = {
+          highlights = {
+            tab_separator_selected = {
+              underline = true;
+              sp = "red";
+            };
+          };
+          options = {
+            diagnostics = "nvim_lsp";
+            separatorStyle = "slope";
+            offsets = [{
+              filetype = "neo-tree";
+              text = "File Explorer";
+              highlight = "Directory";
+              separator = true;
+            }];
           };
         };
-        offsets = [{
-          filetype = "neo-tree";
-          text = "File Explorer";
-          highlight = "Directory";
-          separator = true;
-        }];
       };
       treesitter = {
         enable = true;
@@ -314,7 +319,11 @@ in {
       nvim-autopairs = { enable = true; };
       todo-comments = {
         enable = true;
-        highlight = { commentsOnly = true; };
+        settings = {
+          highlight = {
+            comments_only = true;
+          };
+        };
       };
       project-nvim = {
         enable = true;
@@ -438,8 +447,10 @@ in {
         };
       };
 
+      # plugins.conform-nvim.settings.formatters_by_ft
       conform-nvim = {
         enable = true;
+        settings = {
         formattersByFt = {
           lua = [ "stylua" ];
           python = [ "black" ];
@@ -455,12 +466,13 @@ in {
           yaml = [ "prettierd" ];
           "*" = [ "codespell" ];
           "_" = [ "trim_whitespace" ];
-        };
-        formatters = {
-          hindent = { command = "/Users/abhishek.rana/.nix-profile/bin/hindent"; };
-          cabal-fmt = {
-            command = "/Users/abhishek.rana/.nix-profile/bin/cabal-fmt";
           };
+        formatters = {
+          hindent = { command = "/Users/abhishek/.nix-profile/bin/hindent"; };
+          cabal-fmt = {
+            command = "/Users/abhishek/.nix-profile/bin/cabal-fmt";
+          };
+        };
         };
       };
       zen-mode = {

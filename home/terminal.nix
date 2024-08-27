@@ -14,7 +14,7 @@ let
   delta-themes = builtins.fetchurl {
     url =
       "https://raw.githubusercontent.com/dandavison/delta/master/themes.gitconfig";
-    sha256 = "sha256:09kfrlmrnj5h3vs8cwfs66yhz2zpgk0qnmajvsr57wsxzgda3mh6";
+    sha256 = "sha256:15f7cyf7k03dqwyfviwzxvyskrc4gdi4vn7ga21qz6fgnb7w6vzc";
   };
   bat-cappuccin = pkgs.fetchFromGitHub {
     owner = "catppuccin";
@@ -56,6 +56,7 @@ in
 # Nix packages to install to $HOME
   #
   # Search for packages here: https://search.nixos.org/packages
+  home.enableNixpkgsReleaseCheck = true;
   home.packages = with pkgs; [
     # On ubuntu, we need this less for `man home-configuration.nix`'s pager to
     # work.
@@ -68,6 +69,7 @@ in
     sad
     bottom
     coreutils
+    redis 
 
     # Nix dev
     nixci
@@ -119,6 +121,7 @@ in
     # on macOS, you probably don't need this
     bash = {
       enable = true;
+      enableCompletion = true;
       initExtra = ''
         # Make Nix and home-manager installed things available in PATH.
         export PATH=/run/current-system/sw/bin/:/nix/var/nix/profiles/default/bin:$HOME/.nix-profile/bin:/etc/profiles/per-user/$USER/bin:$PATH
@@ -177,7 +180,12 @@ in
     # https://nixos.asia/en/direnv
     direnv = {
       enable = true;
-      nix-direnv.enable = true;
+      nix-direnv = {
+        enable = true;
+        package = pkgs.nix-direnv.override{
+          nix = pkgs.nixVersions.nix_2_23;
+        };
+      };
       config.global = {
         # Make direnv messages less verbose
         hide_env_diff = true;
